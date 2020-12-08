@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tasks")
-class Task {
+public class Task {
 
 	@Id
 	private int id;
