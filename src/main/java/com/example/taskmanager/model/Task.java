@@ -2,22 +2,28 @@ package com.example.taskmanager.model;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@NotBlank(message = "Description must not be empty!")
 	private String description;
 	private boolean done;
 
-	Task() {
+	public Task() {
 	}
 
-	int getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -25,7 +31,7 @@ public class Task {
 		this.id = id;
 	}
 
-	String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
@@ -33,7 +39,7 @@ public class Task {
 		this.description = description;
 	}
 
-	boolean isDone() {
+	public boolean isDone() {
 		return done;
 	}
 
