@@ -10,7 +10,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import com.example.taskmanager.model.Task;
 
 @RepositoryRestResource
-interface TaskRepository extends JpaRepository<Task, Integer> {
+public interface TaskRepository extends JpaRepository<Task, Integer> {
 
 	@Override
 	@RestResource(exported = false)
