@@ -1,5 +1,8 @@
 package com.example.taskmanager.controller;
 
+import java.net.URI;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -9,6 +12,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +30,13 @@ class TaskController {
 		this.repository = repository;
 	}
 
+	@PostMapping("/tasks")
+	ResponseEntity<Task> createTask(@RequestBody @Valid Task toCreate) {
+		Task result = repository.save(toCreate);
+		return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
+	}
 	@GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
-	ResponseEntity<?> readAllTasks() {
+	ResponseEntity<List<Task>> readAllTasks() {
 		logger.warn("Exposing all tasks!");
 		return ResponseEntity.ok(repository.findAll());
 	}
@@ -36,6 +45,12 @@ class TaskController {
 	ResponseEntity<?> readAllTasks(Pageable page) {
 		logger.info("Custom pageable");
 		return ResponseEntity.ok(repository.findAll(page).getContent());
+	}
+	@GetMapping("/tasks/{id")
+	ResponseEntity<?> readTask(@PathVariable int id) {
+		return repository.findById(id)
+				.map(ResponseEntity::ok)
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/tasks/{id}")
