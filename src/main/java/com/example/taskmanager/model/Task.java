@@ -14,7 +14,7 @@ public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@NotBlank(message = "Description must not be empty!")
 	private String description;
@@ -27,7 +27,7 @@ public class Task {
 		return id;
 	}
 
-	void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
