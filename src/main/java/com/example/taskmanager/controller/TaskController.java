@@ -29,6 +29,6 @@ class TaskController {
 	@GetMapping("/tasks")
 	ResponseEntity<?> readAllTasks(Pageable page) {
 		logger.info("Custom pageable");
-		return ResponseEntity.ok(repository.findAll(page));
+		return ResponseEntity.ok(repository.findAll(page).getContent());
 	}
 }
