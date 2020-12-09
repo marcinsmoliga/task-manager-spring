@@ -6,10 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.taskmanager.repository.TaskRepository;
 
-@RepositoryRestController
+@RestController
 class TaskController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
