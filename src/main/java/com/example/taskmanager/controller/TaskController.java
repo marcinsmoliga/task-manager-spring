@@ -35,6 +35,7 @@ class TaskController {
 		Task result = repository.save(toCreate);
 		return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
 	}
+
 	@GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
 	ResponseEntity<List<Task>> readAllTasks() {
 		logger.warn("Exposing all tasks!");

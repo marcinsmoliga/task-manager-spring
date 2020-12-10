@@ -4,3 +4,6 @@ spring:
       enabled: false
   datasource:
     url: 'jdbc:h2:mem:testdb'
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

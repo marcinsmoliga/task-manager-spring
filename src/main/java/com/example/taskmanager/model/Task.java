@@ -8,12 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "tasks")
 public class Task {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "inc")
+	@GenericGenerator(name = "inc", strategy = "increment")
 	private Integer id;
 
 	@NotBlank(message = "Description must not be empty!")
