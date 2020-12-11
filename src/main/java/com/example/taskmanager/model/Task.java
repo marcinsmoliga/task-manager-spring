@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -26,6 +28,8 @@ public class Task {
 
 	private boolean done;
 	private LocalDateTime deadline;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedOn;
 
 	public Task() {
 	}
@@ -34,7 +38,7 @@ public class Task {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -60,5 +64,21 @@ public class Task {
 
 	void setDeadline(LocalDateTime deadline) {
 		this.deadline = deadline;
+	}
+
+	@PrePersist
+	void prePersist() {
+		createdAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	void preMerge() {
+		updatedOn = LocalDateTime.now();
+	}
+
+	public void updateFrom(Task source) {
+		description = source.description;
+		done = source.done;
+		deadline = source.deadline;
 	}
 }
