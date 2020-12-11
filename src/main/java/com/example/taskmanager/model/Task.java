@@ -1,6 +1,8 @@
 package com.example.taskmanager.model;
 
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +23,9 @@ public class Task {
 
 	@NotBlank(message = "Description must not be empty!")
 	private String description;
+
 	private boolean done;
+	private LocalDateTime deadline;
 
 	public Task() {
 	}
@@ -48,5 +52,13 @@ public class Task {
 
 	public void setDone(boolean done) {
 		this.done = done;
+	}
+
+	public LocalDateTime getDeadline() {
+		return deadline;
+	}
+
+	void setDeadline(LocalDateTime deadline) {
+		this.deadline = deadline;
 	}
 }
