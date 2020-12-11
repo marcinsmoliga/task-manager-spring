@@ -3,12 +3,10 @@ package com.example.taskmanager.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -16,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tasks")
-public class Task extends BaseAuditableEntity {
+public class Task {
 
 	@Id
 	@GeneratedValue(generator = "inc")
@@ -28,6 +26,9 @@ public class Task extends BaseAuditableEntity {
 
 	private boolean done;
 	private LocalDateTime deadline;
+
+	@Embedded
+	private Audit audit = new Audit();
 
 
 	public Task() {
