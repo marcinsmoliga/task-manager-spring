@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task extends BaseAuditableEntity {
 
 	@Id
 	@GeneratedValue(generator = "inc")
@@ -28,8 +28,7 @@ public class Task {
 
 	private boolean done;
 	private LocalDateTime deadline;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedOn;
+
 
 	public Task() {
 	}
@@ -64,16 +63,6 @@ public class Task {
 
 	void setDeadline(LocalDateTime deadline) {
 		this.deadline = deadline;
-	}
-
-	@PrePersist
-	void prePersist() {
-		createdAt = LocalDateTime.now();
-	}
-
-	@PreUpdate
-	void preMerge() {
-		updatedOn = LocalDateTime.now();
 	}
 
 	public void updateFrom(Task source) {
