@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -61,6 +63,17 @@ class TaskController {
 		}
 		toUpdate.setId(id);
 		repository.save(toUpdate);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Transactional
+	@PatchMapping("/tasks/{id}")
+	public ResponseEntity<?> toggleTask(@PathVariable int id) {
+		if (!repository.existsById(id)) {
+			return ResponseEntity.notFound().build();
+		}
+		repository.findById(id)
+				.ifPresent(task -> task.setDone(!task.isDone()));
 		return ResponseEntity.noContent().build();
 	}
 }
