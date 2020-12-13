@@ -1,4 +1,4 @@
-package com.example.taskmanager.repository;
+package com.example.taskmanager.adapter;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.taskmanager.model.Task;
+import com.example.taskmanager.repository.TaskRepository;
 
 @Repository
 interface SqlTaskRepository extends TaskRepository, JpaRepository<Task,Integer> {
