@@ -2,6 +2,7 @@ package com.example.taskmanager.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,9 @@ public class Project {
 
 	@OneToMany(mappedBy = "project")
 	private Set<TaskGroup> groups;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+	private Set<ProjectStep> steps;
 
 	public Integer getId() {
 		return id;
@@ -46,5 +50,13 @@ public class Project {
 
 	void setGroups(Set<TaskGroup> groups) {
 		this.groups = groups;
+	}
+
+	Set<ProjectStep> getSteps() {
+		return steps;
+	}
+
+	void setSteps(Set<ProjectStep> steps) {
+		this.steps = steps;
 	}
 }
