@@ -1,6 +1,9 @@
 package com.example.taskmanager.logic;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,6 +34,11 @@ class ProjectServiceTest {
 		var toTest = new ProjectService(null, mockGroupRepository, mockConfig);
 
 		//when
-		toTest.createGroup(LocalDateTime.now(), 0);
+		var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
+
+		//then
+		assertThat(exception)
+				.isInstanceOf(IllegalStateException.class)
+				.hasMessageContaining("one undone group");
 	}
 }
