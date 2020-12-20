@@ -13,18 +13,17 @@ import com.example.taskmanager.repository.TaskRepository;
 
 @Service
 public class TaskGroupService {
+	private TaskGroupRepository repository;
+	private TaskRepository taskRepository;
 
-	private final TaskGroupRepository repository;
-	private final TaskRepository taskRepository;
-
-	TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository) {
+	TaskGroupService(final TaskGroupRepository repository, final TaskRepository taskRepository) {
 		this.repository = repository;
 		this.taskRepository = taskRepository;
 	}
 
-	public GroupReadModel createGroup(GroupWriteModel source) {
+	public GroupReadModel createGroup(final GroupWriteModel source) {
 		TaskGroup result = repository.save(source.toGroup());
-		return  new GroupReadModel(result);
+		return new GroupReadModel(result);
 	}
 
 	public List<GroupReadModel> readAll() {
@@ -34,12 +33,12 @@ public class TaskGroupService {
 	}
 
 	public void toggleGroup(int groupId) {
-		if(taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)) {
-			throw new IllegalStateException("Group has undone tasks!");
+		if (taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)) {
+			throw new IllegalStateException("Group has undone tasks. Done all the tasks first");
 		}
 		TaskGroup result = repository.findById(groupId)
-				.orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found!"));
+				.orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
 		result.setDone(!result.isDone());
-
+		repository.save(result);
 	}
 }

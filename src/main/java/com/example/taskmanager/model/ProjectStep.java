@@ -9,12 +9,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "project_steps")
 public class ProjectStep {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "inc")
+	@GenericGenerator(name = "inc", strategy = "increment")
 	private Integer id;
 
 	@NotBlank(message = "Project step's description must not be empty!")
@@ -25,6 +28,10 @@ public class ProjectStep {
 	@ManyToOne
 	@JoinColumn(name = "project_id")
 	private Project project;
+
+	public ProjectStep() {
+
+	}
 
 	public Integer getId() {
 		return id;

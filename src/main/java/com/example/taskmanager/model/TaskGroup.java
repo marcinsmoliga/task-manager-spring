@@ -23,8 +23,9 @@ import org.hibernate.annotations.GenericGenerator;
 public class TaskGroup {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@GeneratedValue(generator = "inc")
+	@GenericGenerator(name = "inc", strategy = "increment")
+	private int id;
 
 	@NotBlank(message = "Task Group description must not be empty!")
 	private String description;
@@ -45,7 +46,7 @@ public class TaskGroup {
 		return id;
 	}
 
-	void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -74,11 +75,11 @@ public class TaskGroup {
 	}
 
 
-	Project getProject() {
+	public Project getProject() {
 		return project;
 	}
 
-	void setProject(Project project) {
+	public void setProject(Project project) {
 		this.project = project;
 	}
 }

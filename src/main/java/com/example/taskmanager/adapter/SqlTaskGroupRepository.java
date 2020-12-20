@@ -11,9 +11,8 @@ import com.example.taskmanager.repository.TaskGroupRepository;
 
 @Repository
 interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<TaskGroup, Integer> {
-
 	@Override
-	@Query("select distinct g from TaskGroup g join fetch g.tasks")
+	@Query("from TaskGroup g join fetch g.tasks")
 	List<TaskGroup> findAll();
 
 	@Override

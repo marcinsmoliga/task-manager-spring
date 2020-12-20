@@ -24,7 +24,7 @@ public class Task {
 	@GenericGenerator(name = "inc", strategy = "increment")
 	private Integer id;
 
-	@NotBlank(message = "Description must not be empty!")
+	@NotBlank(message = "Tasks's description must not be empty!")
 	private String description;
 
 	private boolean done;

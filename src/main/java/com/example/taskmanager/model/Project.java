@@ -11,12 +11,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "projects")
 public class Project {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "inc")
+	@GenericGenerator(name = "inc", strategy = "increment")
 	private Integer id;
 
 	@NotBlank(message = "Project's description must not be empty!")
@@ -28,11 +31,15 @@ public class Project {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
 	private Set<ProjectStep> steps;
 
+	public Project() {
+
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
-	void setId(Integer id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
