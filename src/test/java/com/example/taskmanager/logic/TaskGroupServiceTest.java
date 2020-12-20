@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.example.taskmanager.model.TaskGroup;
 import com.example.taskmanager.repository.TaskGroupRepository;
 import com.example.taskmanager.repository.TaskRepository;
 
@@ -55,6 +56,30 @@ class TaskGroupServiceTest {
 				.isInstanceOf(IllegalArgumentException.class)
 				.hasMessageContaining("id not found");
 
+	}
+
+	@Test
+	@DisplayName("Should toggle group")
+	void toggleGroup_worksAsExcepted() {
+		// given
+		TaskRepository mockTaskRepository = taskRepositoryReturning(false);
+
+		// and
+		var group = new TaskGroup();
+		var beforeToggle = group.isDone();
+
+		// and
+		var mockRepository = mock(TaskGroupRepository.class);
+		when(mockRepository.findById(anyInt())).thenReturn(Optional.of(group));
+
+		// system under test
+		var toTest = new TaskGroupService(mockRepository, mockTaskRepository);
+
+		// when
+		toTest.toggleGroup(0);
+
+		// then
+		assertThat(group.isDone()).isEqualTo(!beforeToggle);
 	}
 
 	private TaskRepository taskRepositoryReturning(boolean result) {
