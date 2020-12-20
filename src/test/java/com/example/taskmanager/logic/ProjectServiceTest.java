@@ -171,7 +171,6 @@ class ProjectServiceTest {
 
 		@Override
 		public TaskGroup save(TaskGroup entity) {
-//			entity.setId(0);
 			if (entity.getId() == 0) {
 				try {
 					var field = TaskGroup.class.getDeclaredField("id");
