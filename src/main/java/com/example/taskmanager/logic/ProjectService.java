@@ -14,7 +14,6 @@ import com.example.taskmanager.model.projection.GroupReadModel;
 import com.example.taskmanager.repository.ProjectRepository;
 import com.example.taskmanager.repository.TaskGroupRepository;
 
-@Service
 public class ProjectService {
 	private ProjectRepository repository;
 	private TaskGroupRepository taskGroupRepository;

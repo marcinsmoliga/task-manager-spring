@@ -11,7 +11,6 @@ import com.example.taskmanager.model.projection.GroupWriteModel;
 import com.example.taskmanager.repository.TaskGroupRepository;
 import com.example.taskmanager.repository.TaskRepository;
 
-@Service
 public class TaskGroupService {
 	private TaskGroupRepository repository;
 	private TaskRepository taskRepository;
