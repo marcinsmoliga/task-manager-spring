@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.repository.TaskRepository;
 
-@ActiveProfiles("integration")
+//@ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaskControllerE2ETest {
 
@@ -30,6 +30,7 @@ class TaskControllerE2ETest {
 	@Test
 	void httpGet_returnsAllTasks() {
 		// given
+		int initial = repo.findAll().size();
 		repo.save(new Task("foo", LocalDateTime.now()));
 		repo.save(new Task("bar ", LocalDateTime.now()));
 
@@ -37,6 +38,6 @@ class TaskControllerE2ETest {
 		Task[] result = restTemplate.getForObject("http://localhost:" + port + "/tasks", Task[].class);
 
 		// then
-		assertThat(result).hasSize(2);
+		assertThat(result).hasSize(initial + 2);
 	}
 }
