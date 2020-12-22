@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -30,14 +31,14 @@ import com.example.taskmanager.repository.TaskGroupRepository;
 class ProjectServiceTest {
 
 	@Test
-	@DisplayName("Should throw IllegalStateException when configured to allow just 1 group and the other undone gro1up exists")
+	@DisplayName("Should throw IllegalStateException when configured to allow just 1 group and the other undone group exists")
 	void createGroup_noMultipleGroupsConfig_And_undoneGroupExists_throwsIllegalStateException() {
 		// given
 		TaskGroupRepository mockGroupRepository = groupRepositoryReturning(true);
 		// and
 		TaskConfigurationProperties mockConfig = configurationReturning(false);
 		// system under test
-		var toTest = new ProjectService(null, mockGroupRepository, mockConfig);
+		var toTest = new ProjectService(null, mockGroupRepository, null, mockConfig);
 
 		// when
 		var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
@@ -57,7 +58,7 @@ class ProjectServiceTest {
 		// and
 		TaskConfigurationProperties mockConfig = configurationReturning(true);
 		//system under test
-		var toTest = new ProjectService(mockRepository, null, mockConfig);
+		var toTest = new ProjectService(mockRepository, null, null, mockConfig);
 
 		// when
 		var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
@@ -79,7 +80,7 @@ class ProjectServiceTest {
 		// and
 		TaskConfigurationProperties mockConfig = configurationReturning(true);
 		// system under test
-		var toTest = new ProjectService(mockRepository, mockGroupRepository, mockConfig);
+		var toTest = new ProjectService(mockRepository, mockGroupRepository, null, mockConfig);
 
 		// when
 		var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
@@ -101,11 +102,12 @@ class ProjectServiceTest {
 		when(mockRepository.findById(anyInt())).thenReturn(Optional.of(project));
 		// and
 		InMemoryGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
+		var serviceWithInMemRepo = dummyGroupService(inMemoryGroupRepo);
 		int countBeforeCall = inMemoryGroupRepo.count();
 		// and
 		TaskConfigurationProperties mockConfig = configurationReturning(true);
 		// system under test
-		var toTest = new ProjectService(mockRepository, inMemoryGroupRepo, mockConfig);
+		var toTest = new ProjectService(mockRepository, inMemoryGroupRepo, serviceWithInMemRepo, mockConfig);
 
 		// when
 		GroupReadModel result = toTest.createGroup(today, 1);
@@ -115,6 +117,10 @@ class ProjectServiceTest {
 		assertThat(result.getTasks()).allMatch(task -> task.getDescription().equals("foo"));
 		assertThat(countBeforeCall + 1)
 				.isEqualTo(inMemoryGroupRepo.count());
+	}
+
+	private TaskGroupService dummyGroupService(InMemoryGroupRepository inMemoryGroupRepo) {
+		return new TaskGroupService(inMemoryGroupRepo, null);
 	}
 
 	private TaskConfigurationProperties configurationReturning(boolean result) {

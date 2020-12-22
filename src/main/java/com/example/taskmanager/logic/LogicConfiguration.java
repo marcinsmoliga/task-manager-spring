@@ -13,8 +13,11 @@ import com.example.taskmanager.repository.TaskRepository;
 class LogicConfiguration {
 
 	@Bean
-	ProjectService projectService(final ProjectRepository repository, final TaskGroupRepository taskGroupRepository, final TaskConfigurationProperties config) {
-		return new ProjectService(repository, taskGroupRepository, config);
+	ProjectService projectService(final ProjectRepository repository,
+	                              final TaskGroupRepository taskGroupRepository,
+	                              final TaskGroupService taskGroupService,
+	                              final TaskConfigurationProperties config) {
+		return new ProjectService(repository, taskGroupRepository, taskGroupService, config);
 	}
 
 	@Bean

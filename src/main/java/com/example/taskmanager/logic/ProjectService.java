@@ -4,12 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import com.example.taskmanager.TaskConfigurationProperties;
 import com.example.taskmanager.model.Project;
-import com.example.taskmanager.model.Task;
-import com.example.taskmanager.model.TaskGroup;
 import com.example.taskmanager.model.projection.GroupReadModel;
 import com.example.taskmanager.model.projection.GroupTaskWriteModel;
 import com.example.taskmanager.model.projection.GroupWriteModel;
@@ -19,16 +15,16 @@ import com.example.taskmanager.repository.TaskGroupRepository;
 public class ProjectService {
 	private ProjectRepository repository;
 	private TaskGroupRepository taskGroupRepository;
-	private TaskGroupService service;
+	private TaskGroupService taskGroupService;
 	private TaskConfigurationProperties config;
 
 	public ProjectService(final ProjectRepository repository,
 	                      final TaskGroupRepository taskGroupRepository,
-	                      final TaskGroupService service,
+	                      final TaskGroupService taskGroupService,
 	                      final TaskConfigurationProperties config) {
 		this.repository = repository;
 		this.taskGroupRepository = taskGroupRepository;
-		this. service = service;
+		this.taskGroupService = taskGroupService;
 		this.config = config;
 	}
 
@@ -58,7 +54,7 @@ public class ProjectService {
 									}
 									).collect(Collectors.toSet())
 					);
-					return service.createGroup(targetGroup);
+					return taskGroupService.createGroup(targetGroup);
 				}).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
 		return result;
 	}
