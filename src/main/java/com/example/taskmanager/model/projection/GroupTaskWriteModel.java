@@ -3,6 +3,7 @@ package com.example.taskmanager.model.projection;
 import java.time.LocalDateTime;
 
 import com.example.taskmanager.model.Task;
+import com.example.taskmanager.model.TaskGroup;
 
 public class GroupTaskWriteModel {
 	private String description;
@@ -24,7 +25,7 @@ public class GroupTaskWriteModel {
 		this.deadline = deadline;
 	}
 
-	Task toTask() {
-		return new Task(description, deadline);
+	Task toTask(TaskGroup group) {
+		return new Task(description, deadline, group);
 	}
 }
