@@ -2,7 +2,6 @@ package com.example.taskmanager.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,7 +17,7 @@ public class ProjectStep {
 	@Id
 	@GeneratedValue(generator = "inc")
 	@GenericGenerator(name = "inc", strategy = "increment")
-	private Integer id;
+	private int id;
 
 	@NotBlank(message = "Project step's description must not be empty!")
 	private String description;
@@ -33,11 +32,11 @@ public class ProjectStep {
 
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	void setId(Integer id) {
+	void setId(int id) {
 		this.id = id;
 	}
 

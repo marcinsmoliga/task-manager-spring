@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import com.example.taskmanager.model.Task;
 import com.example.taskmanager.repository.TaskRepository;
 
+@ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TaskControllerE2ETest {
 
