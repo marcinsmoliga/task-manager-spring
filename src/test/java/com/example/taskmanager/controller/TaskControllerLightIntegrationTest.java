@@ -30,7 +30,7 @@ class TaskControllerLightIntegrationTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private TaskRepository repo;    
+	private TaskRepository repo;
 
 	@Test
 	void httpGet_returnsGivenTask() throws Exception {
