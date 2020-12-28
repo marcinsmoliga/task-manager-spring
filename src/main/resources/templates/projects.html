@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +8,24 @@
 </head>
 <body>
 <main>
-    <fieldset>
-        <legend>New Project</legend>
-    </fieldset>
+    <!--/*@thymesVar id="project" type="com.example.taskmanager.model.projection.ProjectWriteModel"*/-->
+    <form action="#" method="post" th:action="@{/projects}" th:object="${project}">
+        <fieldset>
+            <legend>New Project</legend>
+            <label>Description
+                <input type="text" th:field="*{description}"/>
+            </label>
+            <fieldset th:each="step, stepStat : *{steps}">
+                <legend th:text="|Krok ${stepStat.index + 1}|"></legend>
+                <label>Description
+                    <input type="text" th:field="*{steps[__${stepStat.index}__].description}"/>
+                </label>
+                <label>Days left until the end
+                    <input type="text" th:field="*{steps[__${stepStat.index}__].description}"/>
+                </label>
+            </fieldset>
+        </fieldset>
+    </form>
 </main>
 </body>
 </html>
