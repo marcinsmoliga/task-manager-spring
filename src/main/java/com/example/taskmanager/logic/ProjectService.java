@@ -9,6 +9,7 @@ import com.example.taskmanager.model.Project;
 import com.example.taskmanager.model.projection.GroupReadModel;
 import com.example.taskmanager.model.projection.GroupTaskWriteModel;
 import com.example.taskmanager.model.projection.GroupWriteModel;
+import com.example.taskmanager.model.projection.ProjectWriteModel;
 import com.example.taskmanager.repository.ProjectRepository;
 import com.example.taskmanager.repository.TaskGroupRepository;
 
@@ -32,8 +33,8 @@ public class ProjectService {
 		return repository.findAll();
 	}
 
-	public Project save(final Project toSave) {
-		return repository.save(toSave);
+	public Project save(final ProjectWriteModel toSave) {
+		return repository.save(toSave.toProject());
 	}
 
 	public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
