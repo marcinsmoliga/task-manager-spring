@@ -3,6 +3,7 @@ package com.example.taskmanager.model.projection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.taskmanager.model.Project;
 import com.example.taskmanager.model.TaskGroup;
 
 public class GroupWriteModel {
@@ -26,7 +27,7 @@ public class GroupWriteModel {
 		this.tasks = tasks;
 	}
 
-	public TaskGroup toGroup() {
+	public TaskGroup toGroup(Project project) {
 		var result = new TaskGroup();
 		result.setDescription(description);
 		result.setTasks(
@@ -34,6 +35,7 @@ public class GroupWriteModel {
 				.map(source -> source.toTask(result))
 				.collect(Collectors.toSet())
 		);
+		result.setProject(project);
 		return result;
 	}
 }

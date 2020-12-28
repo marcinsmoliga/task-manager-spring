@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.example.taskmanager.model.Project;
 import com.example.taskmanager.model.TaskGroup;
 import com.example.taskmanager.model.projection.GroupReadModel;
 import com.example.taskmanager.model.projection.GroupWriteModel;
@@ -12,16 +13,20 @@ import com.example.taskmanager.repository.TaskGroupRepository;
 import com.example.taskmanager.repository.TaskRepository;
 
 public class TaskGroupService {
-	private TaskGroupRepository repository;
-	private TaskRepository taskRepository;
+	private final TaskGroupRepository repository;
+	private final TaskRepository taskRepository;
 
 	TaskGroupService(final TaskGroupRepository repository, final TaskRepository taskRepository) {
 		this.repository = repository;
 		this.taskRepository = taskRepository;
 	}
 
-	public GroupReadModel createGroup(final GroupWriteModel source) {
-		TaskGroup result = repository.save(source.toGroup());
+	public GroupReadModel createGroup(GroupWriteModel source) {
+		return createGroup(source, null);
+	}
+
+	GroupReadModel createGroup(GroupWriteModel source, Project project) {
+		TaskGroup result = repository.save(source.toGroup(project));
 		return new GroupReadModel(result);
 	}
 
@@ -40,4 +45,5 @@ public class TaskGroupService {
 		result.setDone(!result.isDone());
 		repository.save(result);
 	}
+
 }
