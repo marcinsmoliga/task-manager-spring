@@ -1,15 +1,26 @@
 package com.example.taskmanager.model.projection;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 import com.example.taskmanager.model.Project;
 import com.example.taskmanager.model.TaskGroup;
 
 public class GroupWriteModel {
 
+	@NotBlank(message = "Task Group description must not be empty!")
 	private String description;
-	private Set<GroupTaskWriteModel> tasks;
+	@Valid
+	private List<GroupTaskWriteModel> tasks = new ArrayList<>();
+
+	public GroupWriteModel() {
+		tasks.add(new GroupTaskWriteModel());
+	}
 
 	public String getDescription() {
 		return description;
@@ -19,11 +30,11 @@ public class GroupWriteModel {
 		this.description = description;
 	}
 
-	public Set<GroupTaskWriteModel> getTasks() {
+	public List<GroupTaskWriteModel> getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(Set<GroupTaskWriteModel> tasks) {
+	public void setTasks(List<GroupTaskWriteModel> tasks) {
 		this.tasks = tasks;
 	}
 
