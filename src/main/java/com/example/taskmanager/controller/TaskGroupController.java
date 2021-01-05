@@ -7,8 +7,10 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.taskmanager.logic.TaskGroupService;
@@ -37,22 +40,32 @@ class TaskGroupController {
 		this.repository = repository;
 	}
 
-	@PostMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	String showGroups(Model model) {
+		model.addAttribute("group", new GroupWriteModel());
+		return "groups";
+	}
+
+	@ResponseBody
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<GroupReadModel> createGroup(@RequestBody @Valid GroupWriteModel toCreate) {
 		GroupReadModel result = service.createGroup(toCreate);
 		return  ResponseEntity.created(URI.create("/" + result.getId())).body(result);
 	}
 
-	@GetMapping
+	@ResponseBody
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<List<GroupReadModel>> readAllGroups() {
 		return ResponseEntity.ok(service.readAll());
 	}
 
-	@GetMapping("/{id}")
+	@ResponseBody
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<List<Task>> readAllTasksFromGroup(@PathVariable int id) {
 		return ResponseEntity.ok(repository.findAllByGroup_Id(id));
 	}
 
+	@ResponseBody
 	@Transactional
 	@PatchMapping("/{id}")
 	public ResponseEntity<?> toggleGroup(@PathVariable int id) {
