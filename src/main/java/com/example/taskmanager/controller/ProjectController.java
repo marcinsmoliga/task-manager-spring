@@ -20,6 +20,8 @@ import com.example.taskmanager.model.Project;
 import com.example.taskmanager.model.ProjectStep;
 import com.example.taskmanager.model.projection.ProjectWriteModel;
 
+import io.micrometer.core.annotation.Timed;
+
 @Controller
 @RequestMapping("/projects")
 class ProjectController {

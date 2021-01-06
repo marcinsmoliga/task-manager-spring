@@ -33,6 +33,7 @@ import com.example.taskmanager.model.projection.ProjectWriteModel;
 import com.example.taskmanager.repository.TaskRepository;
 
 @Controller
+@IllegalExceptionProcessing
 @RequestMapping("/groups")
 class TaskGroupController {
 
