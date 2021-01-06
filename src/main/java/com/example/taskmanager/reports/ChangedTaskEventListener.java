@@ -11,7 +11,7 @@ import com.example.taskmanager.model.event.TaskUndone;
 @Service
 class ChangedTaskEventListener {
 	public static final Logger logger = LoggerFactory.getLogger(ChangedTaskEventListener.class);
-	
+
 	@EventListener
 	public void on(TaskDone event) {
 		logger.info("Got " + event);
