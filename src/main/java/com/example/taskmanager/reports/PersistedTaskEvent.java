@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import com.example.taskmanager.model.event.TaskEvent;
 
 @Entity
-@Table("task_events")
+@Table(name = "task_events")
 class PersistedTaskEvent {
 
 	@Id
