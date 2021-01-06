@@ -2,12 +2,12 @@ package com.example.taskmanager.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +27,13 @@ import com.example.taskmanager.repository.TaskRepository;
 @RestController
 @RequestMapping("/tasks")
 class TaskController {
-
 	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+	private final ApplicationEventPublisher eventPublisher;
 	private final TaskRepository repository;
 
-	public TaskController(TaskRepository repository) {
+	public TaskController(ApplicationEventPublisher eventPublisher,
+	                      TaskRepository repository) {
+		this.eventPublisher = eventPublisher;
 		this.repository = repository;
 	}
 
@@ -86,7 +88,8 @@ class TaskController {
 			return ResponseEntity.notFound().build();
 		}
 		repository.findById(id)
-				.ifPresent(task -> task.setDone(!task.isDone()));
+				.map(Task::toggle)
+				.ifPresent(eventPublisher::publishEvent);
 		return ResponseEntity.noContent().build();
 	}
 }

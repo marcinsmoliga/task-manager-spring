@@ -14,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.example.taskmanager.model.event.TaskEvent;
+
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -72,8 +74,9 @@ public class Task {
 		return done;
 	}
 
-	public void setDone(boolean done) {
-		this.done = done;
+	public TaskEvent toggle() {
+		this.done = !this.done;
+		return TaskEvent.changed(this);
 	}
 
 	public LocalDateTime getDeadline() {

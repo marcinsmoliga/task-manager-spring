@@ -4,8 +4,8 @@ import java.time.Clock;
 
 import com.example.taskmanager.model.Task;
 
-class TaskDone extends TaskEvent {
-	public TaskDone(Task source) {
+public class TaskDone extends TaskEvent {
+	TaskDone(Task source) {
 		super(source.getId(), Clock.systemDefaultZone());
 	}
 }
